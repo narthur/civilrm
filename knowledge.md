@@ -15,3 +15,14 @@ This project uses `pnpm` instead of `npm`. Always use `pnpm` commands, e.g.:
 ## Verifying changes
 
 After every change, run `pnpm run typecheck` to check for any errors that should be fixed.
+
+## Testing
+
+This project uses [Vitest](https://vitest.dev/) as its test runner and [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) for testing React components.
+
+-   **Setup**: Test setup is configured in `vitest.setup.ts`, which imports `@testing-library/jest-dom/vitest` for extended Jest DOM matchers.
+-   **Configuration**: Vitest configuration can be found in `vitest.config.ts`.
+-   **Running Tests**:
+    -   To run all tests once: `pnpm run test`
+    -   To run tests in watch mode: `pnpm run test:watch`
+-   **Example**: An example test can be found in `pages/_app.spec.ts`.
