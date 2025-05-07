@@ -19,6 +19,7 @@ import {
   AuthLoading,
   useQuery,
 } from "convex/react";
+import { dark } from "@clerk/themes";
 
 if (!process.env.NEXT_PUBLIC_CONVEX_URL) {
   throw new Error("Missing NEXT_PUBLIC_CONVEX_URL in your .env file");
@@ -30,6 +31,8 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <ClerkProvider
       publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY!}
+      afterSignOutUrl="/"
+      appearance={{ baseTheme: dark }}
     >
       <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
         <Layout>

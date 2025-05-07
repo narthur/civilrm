@@ -20,7 +20,7 @@ export function Header() {
           </div>
           <div className="flex items-center">
             <SignedIn>
-              <UserButton afterSignOutUrl="/" />
+              <UserButton />
             </SignedIn>
             <SignedOut>
               <SignInButton mode="modal">
