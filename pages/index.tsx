@@ -90,7 +90,7 @@ export default function ProfilePage() {
         </h1>
 
         <SignedIn>
-          <div className="flex flex-col md:flex-row items-center mb-8 border-b pb-6">
+          <div className="flex flex-col md:flex-row items-center mb-8 border-b border-gray-400 pb-6">
             <div className="flex-shrink-0 mb-4 md:mb-0 md:mr-6">
               <div className="w-24 h-24 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-2xl font-bold overflow-hidden">
                 {user?.imageUrl ? (
@@ -145,7 +145,7 @@ export default function ProfilePage() {
               </div>
             ) : (
               <>
-                <div className="mb-6 pb-6 border-b border-gray-200">
+                <div className="mb-6 pb-6 border-b border-gray-700">
                   <h3 className="text-lg font-medium text-gray-900 mb-3">
                     Profile Details
                   </h3>
