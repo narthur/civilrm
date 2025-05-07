@@ -13,6 +13,7 @@ This Personal Civil Advocacy Tool aims to empower individuals to effectively eng
 -   **External Data Integration**: Automatically populate and update representative data using public APIs (e.g., Google Civic, OpenStates).
 -   **Communication Tools**: Streamline your outreach with email templates, SMS reminders, and calendar scheduling.
 -   **Smart Reminders**: Get timely notifications for follow-ups, upcoming votes, and important deadlines.
+-   **AI Writing Assistant**: Get real-time feedback on your messages to representatives, with suggestions for clarity, effectiveness, and tone while maintaining your authentic voice.
 
 ## Schema Design
 
@@ -43,7 +44,12 @@ representatives: {
     phone?: string,
     office_address?: string
   },
-  notes?: string // personal notes about the representative
+  notes?: string, // personal notes about the representative
+  communication_preferences?: {
+    preferred_style?: "formal" | "casual",
+    key_interests?: string[],
+    best_practices?: string[] // learned from successful interactions
+  }
 }
 
 // Issues you're tracking
@@ -65,7 +71,12 @@ interactions: {
   date: number, // timestamp
   notes: string,
   outcome: "positive" | "neutral" | "negative" | "no_response",
-  follow_up_needed: boolean
+  follow_up_needed: boolean,
+  message_feedback?: {
+    original_draft?: string,
+    final_version?: string,
+    what_worked?: string[] // store successful communication patterns
+  }
 }
 
 // Follow-ups for your interactions
@@ -141,6 +152,17 @@ createTask(data: TaskData)
 updateTaskStatus(id: Id<"tasks">, status: string)
 scheduleFollowup(data: FollowupData)
 completeFollowup(id: Id<"followups">)
+
+// Message Assistant
+analyzeMessageDraft(args: {
+  draft: string,
+  representative_id: Id<"representatives">,
+  issue_id?: Id<"issues">
+})
+saveCommunicationPreferences(
+  representative_id: Id<"representatives">,
+  preferences: CommunicationPreferences
+)
 ```
 
 ### Internal Functions
@@ -152,6 +174,30 @@ checkUpcomingDeadlines()
 // Data Processing
 generatePersonalReport(date_range: { start: number, end: number })
 calculateAdvocacyStats()
+
+// AI Assistant
+generateMessageFeedback(args: {
+  draft: string,
+  context: {
+    representative_id: Id<"representatives">,
+    issue_id?: Id<"issues">,
+    previous_successful_interactions?: boolean
+  }
+}): Promise<{
+  tone_suggestions: string[],
+  clarity_improvements: string[],
+  effectiveness_tips: string[],
+  structure_feedback: string[],
+  custom_insights: string[]
+}>
+
+analyzeSuccessfulInteractions(
+  representative_id: Id<"representatives">
+): Promise<{
+  patterns: string[],
+  effective_approaches: string[],
+  recommended_practices: string[]
+}>
 ```
 
 ## Frontend Components
@@ -179,6 +225,21 @@ calculateAdvocacyStats()
   - Calendar view
   - Follow-up manager
 
+### New Message Assistant Components
+- MessageEditor
+  - Real-time feedback panel
+  - Suggestion highlighting
+  - Accept/reject suggestion buttons
+  - Feedback categories filter
+- CommunicationInsights
+  - Representative-specific tips
+  - Success patterns display
+  - Best practices guide
+- FeedbackPreferences
+  - Feedback intensity settings
+  - Focus areas selection
+  - Custom rules input
+
 ### Reusable Components
 - SearchBar
 - FilterPanel
@@ -188,6 +249,10 @@ calculateAdvocacyStats()
 - ActionMenu
 - ConfirmationDialog
 - ReminderSetter
+- AIFeedbackCard
+- SuggestionHighlight
+- ToneIndicator
+- EffectivenessScore
 
 ## External Integrations
 
@@ -206,6 +271,11 @@ calculateAdvocacyStats()
    - Legislative tracking APIs
    - Vote records APIs
 
+4. **AI Services**
+   - OpenAI GPT-4 for message analysis
+   - Custom fine-tuned models for advocacy-specific feedback
+   - Tone and clarity analysis APIs
+
 ## Development Phases
 
 ### Phase 1: Core Personal Infrastructure
@@ -223,12 +293,48 @@ calculateAdvocacyStats()
 - Follow-up scheduling
 - Smart notification system
 
-### Phase 4: Analytics & Insights
+### Phase 4: AI Writing Assistant
+- Basic message feedback system
+- Tone and clarity analysis
+- Representative-specific insights
+- Success pattern learning
+
+### Phase 5: Analytics & Insights
 - Personal engagement metrics
 - Progress tracking
 - Basic reporting
 
-### Phase 5: Integration & Enhancement
+### Phase 6: Integration & Enhancement
 - External API integrations
 - Mobile optimization
 - Advanced search/filter capabilities
+
+## AI Writing Assistant Guidelines
+
+### Feedback Principles
+1. **Preserve Authentic Voice**
+   - Never rewrite the entire message
+   - Focus on enhancing clarity and effectiveness
+   - Maintain the writer's personal style and tone
+
+2. **Context-Aware Suggestions**
+   - Consider representative's background and preferences
+   - Account for issue sensitivity and urgency
+   - Reference successful past interactions
+
+3. **Constructive Feedback Categories**
+   - Clarity and conciseness
+   - Tone appropriateness
+   - Structure and organization
+   - Persuasiveness
+   - Call-to-action effectiveness
+
+4. **Learning and Adaptation**
+   - Track which suggestions are accepted/rejected
+   - Learn from successful interactions
+   - Build representative-specific communication profiles
+
+5. **Privacy and Security**
+   - No storage of message content without explicit consent
+   - Local processing where possible
+   - Clear data usage policies
