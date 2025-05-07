@@ -17,7 +17,7 @@ export function Sidebar() {
 
   return (
     <SignedIn>
-      <div className="w-64 bg-white shadow-sm">
+      <div className="self-stretch w-64 bg-white shadow-sm">
         <nav className="mt-5 px-2">
           <div className="space-y-1">
             {navigation.map((item) => {
