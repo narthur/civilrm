@@ -17,7 +17,7 @@ export function Sidebar() {
 
   return (
     <SignedIn>
-      <div className="self-stretch w-64 bg-white shadow-sm">
+      <div className="self-stretch w-64 bg-gray-900 shadow-sm">
         <nav className="mt-5 px-2">
           <div className="space-y-1">
             {navigation.map((item) => {
@@ -28,8 +28,8 @@ export function Sidebar() {
                   href={item.href}
                   className={`${
                     isActive
-                      ? "bg-gray-100 text-gray-900"
-                      : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                      ? "bg-gray-700 text-gray-100"
+                      : "text-gray-200 hover:bg-gray-700 hover:text-gray-100"
                   } group flex items-center px-2 py-2 text-base font-medium rounded-md`}
                 >
                   {item.name}

@@ -85,7 +85,7 @@ export default function ProfilePage() {
   return (
     <main>
       <div>
-        <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">
+        <h1 className="text-2xl font-bold text-center text-gray-200 mb-6">
           My Profile
         </h1>
 
@@ -109,13 +109,13 @@ export default function ProfilePage() {
               </div>
             </div>
             <div className="flex-1 text-center md:text-left">
-              <h2 className="text-xl font-semibold text-gray-800">
+              <h2 className="text-xl font-semibold text-gray-200">
                 {user?.fullName || user?.username || "User"}
               </h2>
-              <p className="text-gray-500">
+              <p className="text-gray-400">
                 {user?.primaryEmailAddress?.emailAddress}
               </p>
-              <p className="text-sm text-gray-500 mt-1">
+              <p className="text-sm text-gray-400 mt-1">
                 Member since{" "}
                 {user?.createdAt
                   ? new Date(user.createdAt).toLocaleDateString()
@@ -134,12 +134,12 @@ export default function ProfilePage() {
                   <div className="h-3 w-3 bg-blue-600 rounded-full"></div>
                   <div className="h-3 w-3 bg-blue-600 rounded-full"></div>
                 </div>
-                <span className="ml-3 text-gray-600">Loading profile...</span>
+                <span className="ml-3 text-gray-400">Loading profile...</span>
               </div>
             ) : currentUser === null ? (
               <div className="flex justify-center items-center py-8">
                 <div className="animate-spin h-5 w-5 border-2 border-blue-600 rounded-full border-t-transparent"></div>
-                <span className="ml-3 text-gray-600">
+                <span className="ml-3 text-gray-400">
                   Creating your profile...
                 </span>
               </div>
@@ -149,7 +149,7 @@ export default function ProfilePage() {
                   <h3 className="text-lg font-medium text-gray-900 mb-3">
                     Profile Details
                   </h3>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-gray-300">
                     Update your personal information below
                   </p>
                 </div>
@@ -157,7 +157,7 @@ export default function ProfilePage() {
                   <div>
                     <label
                       htmlFor="name"
-                      className="block text-sm font-medium text-gray-700 mb-1"
+                      className="block text-sm font-medium text-gray-400 mb-1"
                     >
                       Name
                     </label>
@@ -173,7 +173,7 @@ export default function ProfilePage() {
                   <div>
                     <label
                       htmlFor="email"
-                      className="block text-sm font-medium text-gray-700 mb-1"
+                      className="block text-sm font-medium text-gray-400 mb-1"
                     >
                       Email
                     </label>
@@ -277,7 +277,7 @@ export default function ProfilePage() {
               <p className="text-gray-600 mb-4">
                 Please sign in to view and edit your profile.
               </p>
-              <p className="text-sm text-gray-500 mb-6">
+              <p className="text-sm text-gray-400 mb-6">
                 Your profile data is securely stored and only accessible to you.
               </p>
               <SignInButton mode="modal">
