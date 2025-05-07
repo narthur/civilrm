@@ -12,7 +12,9 @@ export function Layout({ children }: LayoutProps) {
       <Header />
       <div className="flex">
         <Sidebar />
-        <main className="flex-1 p-6">{children}</main>
+        <main className="flex-1 bg-white rounded-lg shadow-md p-8 max-w-2xl mx-auto mt-8">
+          {children}
+        </main>
       </div>
     </div>
   );
