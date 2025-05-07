@@ -2,18 +2,26 @@ import { FormEvent, useEffect, useState } from "react";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../convex/_generated/api";
 import { Doc } from "../convex/_generated/dataModel";
-import { SignedIn, SignedOut, UserButton, SignInButton, useAuth } from "@clerk/clerk-react";
+import {
+  SignedIn,
+  SignedOut,
+  UserButton,
+  SignInButton,
+  useAuth,
+} from "@clerk/clerk-react";
 
 export default function ProfilePage() {
   const { isLoaded: authLoaded, isSignedIn } = useAuth();
-  
+
   // Convex queries and mutations
   const userProfileQuery = useQuery(api.users.getMyProfile);
   const storeUserMutation = useMutation(api.users.storeUser);
   const updateUserProfileMutation = useMutation(api.users.updateProfile);
 
   // Local state for the user profile data
-  const [currentUser, setCurrentUser] = useState<Doc<"users"> | null | undefined>(undefined);
+  const [currentUser, setCurrentUser] = useState<
+    Doc<"users"> | null | undefined
+  >(undefined);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -67,18 +75,7 @@ export default function ProfilePage() {
 
   return (
     <main style={{ padding: "20px", maxWidth: "600px", margin: "auto" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
-        <h1>My Profile</h1>
-        <div>
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
-          <SignedOut>
-            <SignInButton mode="modal" />
-          </SignedOut>
-        </div>
-      </div>
-
+      <h1>My Profile</h1>
       <div>
         <SignedIn>
           {currentUser === undefined ? (
@@ -88,30 +85,52 @@ export default function ProfilePage() {
           ) : (
             <form onSubmit={handleUpdateProfile}>
               <div>
-                <label htmlFor="name" style={{ display: "block", marginBottom: "5px" }}>Name:</label>
+                <label
+                  htmlFor="name"
+                  style={{ display: "block", marginBottom: "5px" }}
+                >
+                  Name:
+                </label>
                 <input
                   id="name"
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required
-                  style={{ width: "100%", padding: "8px", marginBottom: "10px" }}
+                  style={{
+                    width: "100%",
+                    padding: "8px",
+                    marginBottom: "10px",
+                  }}
                 />
               </div>
               <div>
-                <label htmlFor="email" style={{ display: "block", marginBottom: "5px" }}>Email:</label>
+                <label
+                  htmlFor="email"
+                  style={{ display: "block", marginBottom: "5px" }}
+                >
+                  Email:
+                </label>
                 <input
                   id="email"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  style={{ width: "100%", padding: "8px", marginBottom: "15px" }}
+                  style={{
+                    width: "100%",
+                    padding: "8px",
+                    marginBottom: "15px",
+                  }}
                 />
               </div>
               <button
                 type="submit"
-                disabled={isLoading || !currentUser || (name === currentUser.name && email === currentUser.email)}
+                disabled={
+                  isLoading ||
+                  !currentUser ||
+                  (name === currentUser.name && email === currentUser.email)
+                }
                 style={{ padding: "10px 15px", cursor: "pointer" }}
               >
                 {isLoading ? "Saving..." : "Save Profile"}
@@ -119,7 +138,7 @@ export default function ProfilePage() {
             </form>
           )}
         </SignedIn>
-        
+
         <SignedOut>
           <div style={{ textAlign: "center", marginTop: "40px" }}>
             <p>Please sign in to view and edit your profile.</p>
