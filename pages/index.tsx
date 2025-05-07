@@ -146,7 +146,7 @@ export default function ProfilePage() {
             ) : (
               <>
                 <div className="mb-6 pb-6 border-b border-gray-700">
-                  <h3 className="text-lg font-medium text-gray-900 mb-3">
+                  <h3 className="text-lg font-medium text-gray-100 mb-3">
                     Profile Details
                   </h3>
                   <p className="text-sm text-gray-300">
