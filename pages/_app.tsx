@@ -12,8 +12,18 @@ import {
 import { ConvexProviderWithClerk } from "convex/react-clerk";
 import { ConvexReactClient } from "convex/react";
 import { api } from "../convex/_generated/api";
+import {
+  Authenticated,
+  Unauthenticated,
+  AuthLoading,
+  useQuery,
+} from "convex/react";
 
-const convex = new ConvexReactClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
+if (!process.env.NEXT_PUBLIC_CONVEX_URL) {
+  throw new Error("Missing NEXT_PUBLIC_CONVEX_URL in your .env file");
+}
+
+const convex = new ConvexReactClient(process.env.NEXT_PUBLIC_CONVEX_URL);
 
 export default function App({ Component, pageProps }: any) {
   return (
@@ -21,13 +31,16 @@ export default function App({ Component, pageProps }: any) {
       publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY!}
     >
       <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
-        <SignedOut>
+        <Unauthenticated>
           <SignInButton />
-        </SignedOut>
-        <SignedIn>
+        </Unauthenticated>
+        <Authenticated>
           <UserButton />
-        </SignedIn>
-        <Component {...pageProps} />
+          <Component {...pageProps} />
+        </Authenticated>
+        <AuthLoading>
+          <p>Still loading</p>
+        </AuthLoading>
       </ConvexProviderWithClerk>
     </ClerkProvider>
   );
