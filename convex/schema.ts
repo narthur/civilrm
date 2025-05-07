@@ -10,6 +10,7 @@ export default defineSchema(
     users: defineTable({
       name: v.string(),
       email: v.string(),
+      tokenIdentifier: v.string(),
       preferences: v.optional(
         v.object({
           notification_settings: v.object({
@@ -20,7 +21,7 @@ export default defineSchema(
           default_reminder_time: v.optional(v.number()),
         }),
       ),
-    }),
+    }).index("by_token", ["tokenIdentifier"]),
   },
   {
     schemaValidation: false,

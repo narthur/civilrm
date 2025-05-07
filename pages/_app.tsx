@@ -1,20 +1,19 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 
-import { ConvexProvider, ConvexReactClient } from "convex/react";
+import { ClerkProvider, useAuth } from "@clerk/clerk-react";
+import { ConvexProviderWithClerk } from "convex/react-clerk";
+import { ConvexReactClient } from "convex/react";
+import { api } from "../convex/_generated/api";
 
-const address = process.env.NEXT_PUBLIC_CONVEX_URL;
-if (!address) {
-  throw new Error("Convex deployment url not found in environment.");
-}
-const convex = new ConvexReactClient(address);
+const convex = new ConvexReactClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
 
-function MyApp({ Component, pageProps }: AppProps) {
+export default function App({ Component, pageProps }: any) {
   return (
-    <ConvexProvider client={convex}>
-      <Component {...pageProps} />
-    </ConvexProvider>
+    <ClerkProvider publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY!}>
+      <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
+        <Component {...pageProps} />
+      </ConvexProviderWithClerk>
+    </ClerkProvider>
   );
 }
-
-export default MyApp;
