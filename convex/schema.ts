@@ -7,11 +7,22 @@ export default defineSchema(
       author: v.string(),
       body: v.string(),
     }),
+    users: defineTable({
+      name: v.string(),
+      email: v.string(),
+      preferences: v.optional(
+        v.object({
+          notification_settings: v.object({
+            email: v.boolean(),
+            sms: v.optional(v.boolean()),
+            push: v.optional(v.boolean()),
+          }),
+          default_reminder_time: v.optional(v.number()),
+        }),
+      ),
+    }),
   },
   {
-    // When you want runtime validation of the schema, set this to true.
     schemaValidation: false,
-    // This option allows you to read and write tables not specified here.
-    // strictTableNameTypes: false,
   },
 );
