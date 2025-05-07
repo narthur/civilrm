@@ -90,7 +90,9 @@ export default defineSchema(
       status: v.union(
         v.literal("active"),
         v.literal("monitoring"),
-        v.literal("archived")
+        v.literal("archived"),
+        v.literal("resolved"),
+        v.literal("blocked")
       ),
       priority: v.union(
         v.literal("high"),
@@ -100,6 +102,8 @@ export default defineSchema(
       tags: v.array(v.string()),
       target_date: v.optional(v.number()), // timestamp for any relevant deadline
       notes: v.string(),
+      key_points: v.optional(v.array(v.string())), // Added
+      success_criteria: v.optional(v.array(v.string())), // Added
     })
     .index("by_user", ["userId"])
     .index("by_user_status", ["userId", "status"])

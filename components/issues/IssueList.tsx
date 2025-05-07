@@ -22,10 +22,14 @@ function IssueCard({ issue, onEdit }: IssueCardProps) {
             <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize" style={{
               backgroundColor: issue.status === "active" ? "rgb(220 252 231)" :
                              issue.status === "resolved" ? "rgb(229 231 235)" :
-                             issue.status === "blocked" ? "rgb(254 226 226)" : "rgb(243 244 246)",
+                             issue.status === "blocked" ? "rgb(254 226 226)" :
+                             issue.status === "monitoring" ? "rgb(254 249 195)" :
+                             issue.status === "archived" ? "rgb(243 244 246)" : "rgb(243 244 246)",
               color: issue.status === "active" ? "rgb(22 101 52)" :
                     issue.status === "resolved" ? "rgb(31 41 55)" :
-                    issue.status === "blocked" ? "rgb(153 27 27)" : "rgb(55 65 81)",
+                    issue.status === "blocked" ? "rgb(153 27 27)" :
+                    issue.status === "monitoring" ? "rgb(161 98 7)" :
+                    issue.status === "archived" ? "rgb(55 65 81)" : "rgb(55 65 81)",
             }}>
               {issue.status}
             </span>
@@ -36,7 +40,7 @@ function IssueCard({ issue, onEdit }: IssueCardProps) {
           <h3 className="text-lg font-medium text-gray-900 mt-2">
             {issue.title}
           </h3>
-          <p className="text-sm text-gray-500">Created: {formatDate(issue.created_at)}</p>
+          <p className="text-sm text-gray-500">Created: {formatDate(issue._creationTime)}</p>
           {issue.target_date && (
             <p className="text-sm text-gray-500">Target: {formatDate(issue.target_date)}</p>
           )}
@@ -60,7 +64,7 @@ function IssueCard({ issue, onEdit }: IssueCardProps) {
         <div className="mt-4">
           <h4 className="text-sm font-medium text-gray-900">Key Points</h4>
           <ul className="mt-2 list-disc list-inside text-sm text-gray-500">
-            {issue.key_points.map((point, index) => (
+            {issue.key_points.map((point: string, index: number) => (
               <li key={index}>{point}</li>
             ))}
           </ul>
@@ -71,7 +75,7 @@ function IssueCard({ issue, onEdit }: IssueCardProps) {
         <div className="mt-4">
           <h4 className="text-sm font-medium text-gray-900">Success Criteria</h4>
           <ul className="mt-2 list-disc list-inside text-sm text-gray-500">
-            {issue.success_criteria.map((criteria, index) => (
+            {issue.success_criteria.map((criteria: string, index: number) => (
               <li key={index}>{criteria}</li>
             ))}
           </ul>
@@ -93,7 +97,7 @@ function IssueCard({ issue, onEdit }: IssueCardProps) {
 export function IssueList() {
   const [showForm, setShowForm] = useState(false);
   const [editingIssue, setEditingIssue] = useState<Doc<"issues"> | undefined>();
-  const [statusFilter, setStatusFilter] = useState<"all" | "active" | "resolved" | "blocked">("all");
+  const [statusFilter, setStatusFilter] = useState<"all" | Doc<"issues">["status"]>("all");
   const [priorityFilter, setPriorityFilter] = useState<"all" | "high" | "medium" | "low">("all");
 
   const issues = useQuery(api.issues.listMyIssues, {});
@@ -148,6 +152,8 @@ export function IssueList() {
             >
               <option value="all">All Status</option>
               <option value="active">Active</option>
+              <option value="monitoring">Monitoring</option>
+              <option value="archived">Archived</option>
               <option value="resolved">Resolved</option>
               <option value="blocked">Blocked</option>
             </select>

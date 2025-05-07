@@ -9,7 +9,9 @@ export const listMyIssues = query({
       v.union(
         v.literal("active"),
         v.literal("monitoring"),
-        v.literal("archived")
+        v.literal("archived"),
+        v.literal("resolved"),
+        v.literal("blocked")
       )
     ),
     priority: v.optional(
@@ -111,12 +113,16 @@ export const createIssue = mutation({
     status: v.union(
       v.literal("active"),
       v.literal("monitoring"),
-      v.literal("archived")
+      v.literal("archived"),
+      v.literal("resolved"),
+      v.literal("blocked")
     ),
     priority: v.union(v.literal("high"), v.literal("medium"), v.literal("low")),
     tags: v.array(v.string()),
     target_date: v.optional(v.number()),
     notes: v.string(),
+    key_points: v.optional(v.array(v.string())),
+    success_criteria: v.optional(v.array(v.string())),
   },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
@@ -156,7 +162,9 @@ export const updateIssue = mutation({
       v.union(
         v.literal("active"),
         v.literal("monitoring"),
-        v.literal("archived")
+        v.literal("archived"),
+        v.literal("resolved"),
+        v.literal("blocked")
       )
     ),
     priority: v.optional(
@@ -165,6 +173,8 @@ export const updateIssue = mutation({
     tags: v.optional(v.array(v.string())),
     target_date: v.optional(v.number()),
     notes: v.optional(v.string()),
+    key_points: v.optional(v.array(v.string())),
+    success_criteria: v.optional(v.array(v.string())),
   },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
