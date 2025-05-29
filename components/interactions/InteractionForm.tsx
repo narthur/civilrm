@@ -136,7 +136,7 @@ export function InteractionForm({
             <div>
               <label
                 htmlFor="representative"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-medium text-gray-400"
               >
                 Representative
               </label>
@@ -167,7 +167,7 @@ export function InteractionForm({
               <div>
                 <label
                   htmlFor="issue"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block text-sm font-medium text-gray-400"
                 >
                   Related Issue (Optional)
                 </label>
@@ -196,7 +196,7 @@ export function InteractionForm({
               <div>
                 <label
                   htmlFor="type"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block text-sm font-medium text-gray-400"
                 >
                   Type
                 </label>
@@ -221,7 +221,7 @@ export function InteractionForm({
               <div>
                 <label
                   htmlFor="outcome"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block text-sm font-medium text-gray-400"
                 >
                   Outcome
                 </label>
@@ -248,7 +248,7 @@ export function InteractionForm({
             <div>
               <label
                 htmlFor="date"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-medium text-gray-400"
               >
                 Date
               </label>
@@ -263,7 +263,7 @@ export function InteractionForm({
                   })
                 }
                 required
-                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                className="text-gray-200 smt-1 block w-full border border-gray-600 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               />
             </div>
 
@@ -278,7 +278,7 @@ export function InteractionForm({
                     follow_up_needed: e.target.checked,
                   })
                 }
-                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-600 rounded"
               />
               <label
                 htmlFor="follow_up_needed"
@@ -293,7 +293,7 @@ export function InteractionForm({
           <div>
             <label
               htmlFor="notes"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-gray-400"
             >
               Notes
             </label>
@@ -305,7 +305,7 @@ export function InteractionForm({
               }
               rows={4}
               required
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              className="text-gray-200 mt-1 block w-full border border-gray-600 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             />
           </div>
 
@@ -318,7 +318,7 @@ export function InteractionForm({
               <div>
                 <label
                   htmlFor="original_draft"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block text-sm font-medium text-gray-400"
                 >
                   Original Draft
                 </label>
@@ -341,7 +341,7 @@ export function InteractionForm({
               <div>
                 <label
                   htmlFor="final_version"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block text-sm font-medium text-gray-400"
                 >
                   Final Version
                 </label>
@@ -364,7 +364,7 @@ export function InteractionForm({
               <div>
                 <label
                   htmlFor="what_worked"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block text-sm font-medium text-gray-400"
                 >
                   What Worked
                 </label>
@@ -391,7 +391,7 @@ export function InteractionForm({
                       (item, index) => (
                         <li
                           key={index}
-                          className="flex items-center justify-between text-sm text-gray-700"
+                          className="flex items-center justify-between text-sm text-gray-400"
                         >
                           <span>{item}</span>
                           <button
@@ -417,7 +417,7 @@ export function InteractionForm({
               type="button"
               onClick={onClose}
               disabled={isSubmitting}
-              className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              className="text-gray-800 px-4 py-2 text-sm font-medium bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
               Cancel
             </button>

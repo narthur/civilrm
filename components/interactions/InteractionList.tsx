@@ -34,7 +34,7 @@ function InteractionCard({ interaction, onEdit }: InteractionCardProps) {
   }
 
   return (
-    <div className="bg-white shadow rounded-lg p-6 mb-4">
+    <div className="bg-gray-700 shadow rounded-lg p-6 mb-4">
       <div className="flex justify-between items-start">
         <div>
           <div className="flex items-center space-x-2">
@@ -70,29 +70,29 @@ function InteractionCard({ interaction, onEdit }: InteractionCardProps) {
               </span>
             )}
           </div>
-          <h3 className="text-lg font-medium text-gray-200 mt-2">
+          <h3 className="text-lg font-medium text-gray-100 mt-2">
             {representative.name}
           </h3>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-gray-300">
             {formatDate(interaction.date)}
           </p>
           {issue && (
-            <p className="text-sm text-gray-500 mt-1">
+            <p className="text-sm text-gray-300 mt-1">
               Related to issue: {issue.title}
             </p>
           )}
         </div>
         <button
           onClick={() => onEdit(interaction)}
-          className="text-sm text-blue-600 hover:text-blue-800"
+          className="text-sm text-blue-300 hover:text-blue-200"
         >
           Edit
         </button>
       </div>
 
       <div className="mt-4">
-        <h4 className="text-sm font-medium text-gray-200">Notes</h4>
-        <p className="mt-1 text-sm text-gray-500 whitespace-pre-wrap">
+        <h4 className="text-sm font-medium text-gray-300">Notes</h4>
+        <p className="mt-1 text-sm text-gray-300 whitespace-pre-wrap">
           {interaction.notes}
         </p>
       </div>
