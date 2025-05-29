@@ -9,19 +9,29 @@ interface InteractionFormProps {
   onSuccess: () => void;
 }
 
-export function InteractionForm({ interaction, onClose, onSuccess }: InteractionFormProps) {
+export function InteractionForm({
+  interaction,
+  onClose,
+  onSuccess,
+}: InteractionFormProps) {
   const addInteraction = useMutation(api.interactions.logInteraction);
   const updateInteraction = useMutation(api.interactions.updateInteraction);
-  const representatives = useQuery(api.representatives.listMyRepresentatives, {});
+  const representatives = useQuery(
+    api.representatives.listMyRepresentatives,
+    {},
+  );
   const issues = useQuery(api.issues.listMyIssues, {});
 
   const [formData, setFormData] = useState({
-    representativeId: (interaction?.representativeId ?? "") as Id<"representatives"> | "",
+    representativeId: (interaction?.representativeId ?? "") as
+      | Id<"representatives">
+      | "",
     issueId: (interaction?.issueId ?? "") as Id<"issues"> | "",
-    type: interaction?.type ?? "call" as Doc<"interactions">["type"],
+    type: interaction?.type ?? ("call" as Doc<"interactions">["type"]),
     date: interaction?.date ?? Date.now(),
     notes: interaction?.notes ?? "",
-    outcome: interaction?.outcome ?? "neutral" as Doc<"interactions">["outcome"],
+    outcome:
+      interaction?.outcome ?? ("neutral" as Doc<"interactions">["outcome"]),
     follow_up_needed: interaction?.follow_up_needed ?? false,
     message_feedback: {
       original_draft: interaction?.message_feedback?.original_draft ?? "",
@@ -81,7 +91,10 @@ export function InteractionForm({ interaction, onClose, onSuccess }: Interaction
         ...formData,
         message_feedback: {
           ...formData.message_feedback,
-          what_worked: [...(formData.message_feedback.what_worked || []), whatWorked.trim()],
+          what_worked: [
+            ...(formData.message_feedback.what_worked || []),
+            whatWorked.trim(),
+          ],
         },
       });
       setWhatWorked("");
@@ -93,7 +106,9 @@ export function InteractionForm({ interaction, onClose, onSuccess }: Interaction
       ...formData,
       message_feedback: {
         ...formData.message_feedback,
-        what_worked: formData.message_feedback.what_worked.filter((_, i) => i !== index),
+        what_worked: formData.message_feedback.what_worked.filter(
+          (_, i) => i !== index,
+        ),
       },
     });
   };
@@ -107,10 +122,10 @@ export function InteractionForm({ interaction, onClose, onSuccess }: Interaction
   }
 
   return (
-    <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center p-4">
-      <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="px-6 py-4 border-b border-gray-200">
-          <h2 className="text-xl font-semibold text-gray-900">
+    <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center p-4">
+      <div className="bg-gray-900 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="px-6 py-4 border-b border-gray-700">
+          <h2 className="text-xl font-semibold text-gray-200">
             {interaction ? "Edit Interaction" : "Log New Interaction"}
           </h2>
         </div>
@@ -119,15 +134,25 @@ export function InteractionForm({ interaction, onClose, onSuccess }: Interaction
           {/* Basic Information */}
           <div className="space-y-4">
             <div>
-              <label htmlFor="representative" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="representative"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Representative
               </label>
               <select
                 id="representative"
                 value={formData.representativeId}
-                onChange={(e) => setFormData({ ...formData, representativeId: e.target.value as Id<"representatives"> | "" })}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    representativeId: e.target.value as
+                      | Id<"representatives">
+                      | "",
+                  })
+                }
                 required
-                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
+                className="bg-gray-800 mt-1 block w-full pl-3 pr-10 py-2 text-gray-200 border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
               >
                 <option value="">Select a representative</option>
                 {representatives.map((rep) => (
@@ -140,14 +165,22 @@ export function InteractionForm({ interaction, onClose, onSuccess }: Interaction
 
             {issues && issues.length > 0 && (
               <div>
-                <label htmlFor="issue" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="issue"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Related Issue (Optional)
                 </label>
                 <select
                   id="issue"
                   value={formData.issueId}
-                  onChange={(e) => setFormData({ ...formData, issueId: e.target.value as Id<"issues"> | "" })}
-                  className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      issueId: e.target.value as Id<"issues"> | "",
+                    })
+                  }
+                  className="bg-gray-800 mt-1 block w-full pl-3 pr-10 py-2 text-gray-200 border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
                 >
                   <option value="">None</option>
                   {issues.map((issue) => (
@@ -161,15 +194,23 @@ export function InteractionForm({ interaction, onClose, onSuccess }: Interaction
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div>
-                <label htmlFor="type" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="type"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Type
                 </label>
                 <select
                   id="type"
                   value={formData.type}
-                  onChange={(e) => setFormData({ ...formData, type: e.target.value as Doc<"interactions">["type"] })}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      type: e.target.value as Doc<"interactions">["type"],
+                    })
+                  }
                   required
-                  className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
+                  className="bg-gray-800 mt-1 block w-full pl-3 pr-10 py-2 text-gray-200 border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
                 >
                   <option value="call">Call</option>
                   <option value="email">Email</option>
@@ -178,15 +219,23 @@ export function InteractionForm({ interaction, onClose, onSuccess }: Interaction
                 </select>
               </div>
               <div>
-                <label htmlFor="outcome" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="outcome"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Outcome
                 </label>
                 <select
                   id="outcome"
                   value={formData.outcome}
-                  onChange={(e) => setFormData({ ...formData, outcome: e.target.value as Doc<"interactions">["outcome"] })}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      outcome: e.target.value as Doc<"interactions">["outcome"],
+                    })
+                  }
                   required
-                  className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
+                  className="bg-gray-800 mt-1 block w-full pl-3 pr-10 py-2 text-gray-200 border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
                 >
                   <option value="positive">Positive</option>
                   <option value="neutral">Neutral</option>
@@ -197,14 +246,22 @@ export function InteractionForm({ interaction, onClose, onSuccess }: Interaction
             </div>
 
             <div>
-              <label htmlFor="date" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="date"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Date
               </label>
               <input
                 type="date"
                 id="date"
-                value={new Date(formData.date).toISOString().split('T')[0]}
-                onChange={(e) => setFormData({ ...formData, date: new Date(e.target.value).getTime() })}
+                value={new Date(formData.date).toISOString().split("T")[0]}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    date: new Date(e.target.value).getTime(),
+                  })
+                }
                 required
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               />
@@ -215,10 +272,18 @@ export function InteractionForm({ interaction, onClose, onSuccess }: Interaction
                 type="checkbox"
                 id="follow_up_needed"
                 checked={formData.follow_up_needed}
-                onChange={(e) => setFormData({ ...formData, follow_up_needed: e.target.checked })}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    follow_up_needed: e.target.checked,
+                  })
+                }
                 className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
               />
-              <label htmlFor="follow_up_needed" className="ml-2 block text-sm text-gray-900">
+              <label
+                htmlFor="follow_up_needed"
+                className="ml-2 block text-sm text-gray-200"
+              >
                 Follow-up needed
               </label>
             </div>
@@ -226,13 +291,18 @@ export function InteractionForm({ interaction, onClose, onSuccess }: Interaction
 
           {/* Notes */}
           <div>
-            <label htmlFor="notes" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="notes"
+              className="block text-sm font-medium text-gray-700"
+            >
               Notes
             </label>
             <textarea
               id="notes"
               value={formData.notes}
-              onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, notes: e.target.value })
+              }
               rows={4}
               required
               className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
@@ -242,9 +312,14 @@ export function InteractionForm({ interaction, onClose, onSuccess }: Interaction
           {/* Message Feedback */}
           {(formData.type === "email" || formData.type === "letter") && (
             <div className="space-y-4">
-              <h3 className="text-lg font-medium text-gray-900">Message Feedback</h3>
+              <h3 className="text-lg font-medium text-gray-200">
+                Message Feedback
+              </h3>
               <div>
-                <label htmlFor="original_draft" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="original_draft"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Original Draft
                 </label>
                 <textarea
@@ -264,7 +339,10 @@ export function InteractionForm({ interaction, onClose, onSuccess }: Interaction
                 />
               </div>
               <div>
-                <label htmlFor="final_version" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="final_version"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Final Version
                 </label>
                 <textarea
@@ -284,7 +362,10 @@ export function InteractionForm({ interaction, onClose, onSuccess }: Interaction
                 />
               </div>
               <div>
-                <label htmlFor="what_worked" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="what_worked"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   What Worked
                 </label>
                 <div className="mt-1 flex space-x-2">
@@ -306,27 +387,30 @@ export function InteractionForm({ interaction, onClose, onSuccess }: Interaction
                 </div>
                 {formData.message_feedback.what_worked.length > 0 && (
                   <ul className="mt-2 space-y-1">
-                    {formData.message_feedback.what_worked.map((item, index) => (
-                      <li key={index} className="flex items-center justify-between text-sm text-gray-700">
-                        <span>{item}</span>
-                        <button
-                          type="button"
-                          onClick={() => handleRemoveWhatWorked(index)}
-                          className="text-red-600 hover:text-red-800"
+                    {formData.message_feedback.what_worked.map(
+                      (item, index) => (
+                        <li
+                          key={index}
+                          className="flex items-center justify-between text-sm text-gray-700"
                         >
-                          Remove
-                        </button>
-                      </li>
-                    ))}
+                          <span>{item}</span>
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveWhatWorked(index)}
+                            className="text-red-600 hover:text-red-800"
+                          >
+                            Remove
+                          </button>
+                        </li>
+                      ),
+                    )}
                   </ul>
                 )}
               </div>
             </div>
           )}
 
-          {error && (
-            <div className="text-red-600 text-sm">{error}</div>
-          )}
+          {error && <div className="text-red-600 text-sm">{error}</div>}
 
           <div className="flex justify-end space-x-3 pt-5">
             <button
