@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import { FollowupList } from "../components/followups/FollowupList";
+import { FollowupList } from "../../components/followups/FollowupList";
 
 const FollowupsPage: NextPage = () => {
   return (

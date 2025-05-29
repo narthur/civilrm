@@ -1,4 +1,4 @@
-import { InteractionList } from "../components/interactions/InteractionList";
+import { InteractionList } from "../../components/interactions/InteractionList";
 
 export default function InteractionsPage() {
   return (

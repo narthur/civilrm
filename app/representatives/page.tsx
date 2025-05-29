@@ -1,4 +1,4 @@
-import { RepresentativeList } from "../components/representatives/RepresentativeList";
+import { RepresentativeList } from "../../components/representatives/RepresentativeList";
 
 export default function RepresentativesPage() {
   return (

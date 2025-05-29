@@ -1,3 +1,5 @@
+"use client";
+
 import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { Doc } from "../../convex/_generated/dataModel";
@@ -19,30 +21,49 @@ function IssueCard({ issue, onEdit }: IssueCardProps) {
       <div className="flex justify-between items-start">
         <div>
           <div className="flex items-center space-x-2">
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize" style={{
-              backgroundColor: issue.status === "active" ? "rgb(220 252 231)" :
-                             issue.status === "resolved" ? "rgb(229 231 235)" :
-                             issue.status === "blocked" ? "rgb(254 226 226)" :
-                             issue.status === "monitoring" ? "rgb(254 249 195)" :
-                             issue.status === "archived" ? "rgb(243 244 246)" : "rgb(243 244 246)",
-              color: issue.status === "active" ? "rgb(22 101 52)" :
-                    issue.status === "resolved" ? "rgb(31 41 55)" :
-                    issue.status === "blocked" ? "rgb(153 27 27)" :
-                    issue.status === "monitoring" ? "rgb(161 98 7)" :
-                    issue.status === "archived" ? "rgb(55 65 81)" : "rgb(55 65 81)",
-            }}>
+            <span
+              className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize"
+              style={{
+                backgroundColor:
+                  issue.status === "active"
+                    ? "rgb(220 252 231)"
+                    : issue.status === "resolved"
+                      ? "rgb(229 231 235)"
+                      : issue.status === "blocked"
+                        ? "rgb(254 226 226)"
+                        : issue.status === "monitoring"
+                          ? "rgb(254 249 195)"
+                          : issue.status === "archived"
+                            ? "rgb(243 244 246)"
+                            : "rgb(243 244 246)",
+                color:
+                  issue.status === "active"
+                    ? "rgb(22 101 52)"
+                    : issue.status === "resolved"
+                      ? "rgb(31 41 55)"
+                      : issue.status === "blocked"
+                        ? "rgb(153 27 27)"
+                        : issue.status === "monitoring"
+                          ? "rgb(161 98 7)"
+                          : issue.status === "archived"
+                            ? "rgb(55 65 81)"
+                            : "rgb(55 65 81)",
+              }}
+            >
               {issue.status}
             </span>
             <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 capitalize">
               {issue.priority}
             </span>
           </div>
-          <h3 className="text-lg font-medium text-white mt-2">
-            {issue.title}
-          </h3>
-          <p className="text-sm text-gray-400">Created: {formatDate(issue._creationTime)}</p>
+          <h3 className="text-lg font-medium text-white mt-2">{issue.title}</h3>
+          <p className="text-sm text-gray-400">
+            Created: {formatDate(issue._creationTime)}
+          </p>
           {issue.target_date && (
-            <p className="text-sm text-gray-400">Target: {formatDate(issue.target_date)}</p>
+            <p className="text-sm text-gray-400">
+              Target: {formatDate(issue.target_date)}
+            </p>
           )}
         </div>
         <button
@@ -73,7 +94,9 @@ function IssueCard({ issue, onEdit }: IssueCardProps) {
 
       {issue.success_criteria && issue.success_criteria.length > 0 && (
         <div className="mt-4">
-          <h4 className="text-sm font-medium text-gray-100">Success Criteria</h4>
+          <h4 className="text-sm font-medium text-gray-100">
+            Success Criteria
+          </h4>
           <ul className="mt-2 list-disc list-inside text-sm text-gray-400">
             {issue.success_criteria.map((criteria: string, index: number) => (
               <li key={index}>{criteria}</li>
@@ -97,14 +120,19 @@ function IssueCard({ issue, onEdit }: IssueCardProps) {
 export function IssueList() {
   const [showForm, setShowForm] = useState(false);
   const [editingIssue, setEditingIssue] = useState<Doc<"issues"> | undefined>();
-  const [statusFilter, setStatusFilter] = useState<"all" | Doc<"issues">["status"]>("all");
-  const [priorityFilter, setPriorityFilter] = useState<"all" | "high" | "medium" | "low">("all");
+  const [statusFilter, setStatusFilter] = useState<
+    "all" | Doc<"issues">["status"]
+  >("all");
+  const [priorityFilter, setPriorityFilter] = useState<
+    "all" | "high" | "medium" | "low"
+  >("all");
 
   const issues = useQuery(api.issues.listMyIssues, {});
 
-  const filteredIssues = issues?.filter(issue => 
-    (statusFilter === "all" || issue.status === statusFilter) &&
-    (priorityFilter === "all" || issue.priority === priorityFilter)
+  const filteredIssues = issues?.filter(
+    (issue) =>
+      (statusFilter === "all" || issue.status === statusFilter) &&
+      (priorityFilter === "all" || issue.priority === priorityFilter),
   );
 
   const handleEdit = (issue: Doc<"issues">) => {
@@ -141,13 +169,18 @@ export function IssueList() {
       <div className="mb-6 flex justify-between items-center text-gray-200">
         <div className="flex space-x-4">
           <div>
-            <label htmlFor="status-filter" className="mr-2 text-sm font-medium text-gray-300">
+            <label
+              htmlFor="status-filter"
+              className="mr-2 text-sm font-medium text-gray-300"
+            >
               Status:
             </label>
             <select
               id="status-filter"
               value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value as typeof statusFilter)}
+              onChange={(e) =>
+                setStatusFilter(e.target.value as typeof statusFilter)
+              }
               className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-600 bg-gray-700 text-white focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
             >
               <option value="all">All Status</option>
@@ -159,13 +192,18 @@ export function IssueList() {
             </select>
           </div>
           <div>
-            <label htmlFor="priority-filter" className="mr-2 text-sm font-medium text-gray-300">
+            <label
+              htmlFor="priority-filter"
+              className="mr-2 text-sm font-medium text-gray-300"
+            >
               Priority:
             </label>
             <select
               id="priority-filter"
               value={priorityFilter}
-              onChange={(e) => setPriorityFilter(e.target.value as typeof priorityFilter)}
+              onChange={(e) =>
+                setPriorityFilter(e.target.value as typeof priorityFilter)
+              }
               className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-600 bg-gray-700 text-white focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
             >
               <option value="all">All Priorities</option>
@@ -190,11 +228,7 @@ export function IssueList() {
           </p>
         ) : (
           filteredIssues?.map((issue) => (
-            <IssueCard
-              key={issue._id}
-              issue={issue}
-              onEdit={handleEdit}
-            />
+            <IssueCard key={issue._id} issue={issue} onEdit={handleEdit} />
           ))
         )}
       </div>

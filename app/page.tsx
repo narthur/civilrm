@@ -1,3 +1,5 @@
+"use client";
+
 import { FormEvent, useEffect, useState } from "react";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../convex/_generated/api";
@@ -8,7 +10,7 @@ import {
   SignInButton,
   useAuth,
   useUser,
-} from "@clerk/clerk-react";
+} from "@clerk/nextjs";
 
 export default function ProfilePage() {
   const { isLoaded: authLoaded, isSignedIn } = useAuth();

@@ -1,9 +1,4 @@
-import {
-  UserButton,
-  SignInButton,
-  SignedIn,
-  SignedOut,
-} from "@clerk/clerk-react";
+import { UserButton, SignInButton, SignedIn, SignedOut } from "@clerk/nextjs";
 import Link from "next/link";
 
 export function Header() {

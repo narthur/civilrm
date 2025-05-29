@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import { TaskList } from "../components/tasks/TaskList";
+import { TaskList } from "../../components/tasks/TaskList";
 
 const TasksPage: NextPage = () => {
   return (

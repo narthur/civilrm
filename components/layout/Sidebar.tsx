@@ -1,10 +1,9 @@
 import Link from "next/link";
-import { useRouter } from "next/router";
-import { SignedIn } from "@clerk/clerk-react";
+import { usePathname } from "next/navigation";
+import { SignedIn } from "@clerk/nextjs";
 
 export function Sidebar() {
-  const router = useRouter();
-  const currentPath = router.pathname;
+  const currentPath = usePathname();
 
   const navigation = [
     { name: "Profile", href: "/" },

@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect, FormEvent } from "react";
 import { useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
@@ -53,7 +55,9 @@ export function IssueForm({ issue, onClose, onSuccess }: IssueFormProps) {
   }, [issue]);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -78,7 +82,10 @@ export function IssueForm({ issue, onClose, onSuccess }: IssueFormProps) {
 
   // Key Point management
   const handleAddKeyPoint = () => {
-    if (currentKeyPoint.trim() && !formData.key_points.includes(currentKeyPoint.trim())) {
+    if (
+      currentKeyPoint.trim() &&
+      !formData.key_points.includes(currentKeyPoint.trim())
+    ) {
       setFormData((prev) => ({
         ...prev,
         key_points: [...prev.key_points, currentKeyPoint.trim()],
@@ -95,10 +102,16 @@ export function IssueForm({ issue, onClose, onSuccess }: IssueFormProps) {
 
   // Success Criterion management
   const handleAddSuccessCriterion = () => {
-    if (currentSuccessCriterion.trim() && !formData.success_criteria.includes(currentSuccessCriterion.trim())) {
+    if (
+      currentSuccessCriterion.trim() &&
+      !formData.success_criteria.includes(currentSuccessCriterion.trim())
+    ) {
       setFormData((prev) => ({
         ...prev,
-        success_criteria: [...prev.success_criteria, currentSuccessCriterion.trim()],
+        success_criteria: [
+          ...prev.success_criteria,
+          currentSuccessCriterion.trim(),
+        ],
       }));
       setCurrentSuccessCriterion("");
     }
@@ -107,7 +120,7 @@ export function IssueForm({ issue, onClose, onSuccess }: IssueFormProps) {
     setFormData((prev) => ({
       ...prev,
       success_criteria: prev.success_criteria.filter(
-        (criterion) => criterion !== criterionToRemove
+        (criterion) => criterion !== criterionToRemove,
       ),
     }));
   };
@@ -133,8 +146,12 @@ export function IssueForm({ issue, onClose, onSuccess }: IssueFormProps) {
         ? new Date(formData.target_date).getTime()
         : undefined,
       notes: formData.notes,
-      key_points: formData.key_points.length > 0 ? formData.key_points : undefined,
-      success_criteria: formData.success_criteria.length > 0 ? formData.success_criteria : undefined,
+      key_points:
+        formData.key_points.length > 0 ? formData.key_points : undefined,
+      success_criteria:
+        formData.success_criteria.length > 0
+          ? formData.success_criteria
+          : undefined,
     };
 
     try {
@@ -147,7 +164,9 @@ export function IssueForm({ issue, onClose, onSuccess }: IssueFormProps) {
       onClose();
     } catch (err) {
       console.error("Failed to save issue:", err);
-      setError(err instanceof Error ? err.message : "An unknown error occurred");
+      setError(
+        err instanceof Error ? err.message : "An unknown error occurred",
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -165,7 +184,10 @@ export function IssueForm({ issue, onClose, onSuccess }: IssueFormProps) {
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
           {/* Title */}
           <div>
-            <label htmlFor="title" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="title"
+              className="block text-sm font-medium text-gray-700"
+            >
               Title <span className="text-red-500">*</span>
             </label>
             <input
@@ -181,7 +203,10 @@ export function IssueForm({ issue, onClose, onSuccess }: IssueFormProps) {
 
           {/* Description */}
           <div>
-            <label htmlFor="description" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="description"
+              className="block text-sm font-medium text-gray-700"
+            >
               Description <span className="text-red-500">*</span>
             </label>
             <textarea
@@ -194,11 +219,14 @@ export function IssueForm({ issue, onClose, onSuccess }: IssueFormProps) {
               className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             />
           </div>
-          
+
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             {/* Status */}
             <div>
-              <label htmlFor="status" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="status"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Status <span className="text-red-500">*</span>
               </label>
               <select
@@ -219,7 +247,10 @@ export function IssueForm({ issue, onClose, onSuccess }: IssueFormProps) {
 
             {/* Priority */}
             <div>
-              <label htmlFor="priority" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="priority"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Priority <span className="text-red-500">*</span>
               </label>
               <select
@@ -239,7 +270,10 @@ export function IssueForm({ issue, onClose, onSuccess }: IssueFormProps) {
 
           {/* Target Date */}
           <div>
-            <label htmlFor="target_date" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="target_date"
+              className="block text-sm font-medium text-gray-700"
+            >
               Target Date (Optional)
             </label>
             <input
@@ -254,7 +288,10 @@ export function IssueForm({ issue, onClose, onSuccess }: IssueFormProps) {
 
           {/* Notes */}
           <div>
-            <label htmlFor="notes" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="notes"
+              className="block text-sm font-medium text-gray-700"
+            >
               Notes <span className="text-red-500">*</span>
             </label>
             <textarea
@@ -270,7 +307,10 @@ export function IssueForm({ issue, onClose, onSuccess }: IssueFormProps) {
 
           {/* Tags */}
           <div>
-            <label htmlFor="currentTag" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="currentTag"
+              className="block text-sm font-medium text-gray-700"
+            >
               Tags
             </label>
             <div className="mt-1 flex rounded-md shadow-sm">
@@ -280,7 +320,12 @@ export function IssueForm({ issue, onClose, onSuccess }: IssueFormProps) {
                 id="currentTag"
                 value={currentTag}
                 onChange={(e) => setCurrentTag(e.target.value)}
-                onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleAddTag();}}}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    handleAddTag();
+                  }
+                }}
                 className="focus:ring-blue-500 focus:border-blue-500 flex-1 block w-full rounded-none rounded-l-md sm:text-sm border-gray-300 px-3 py-2"
                 placeholder="Add a tag"
               />
@@ -315,7 +360,10 @@ export function IssueForm({ issue, onClose, onSuccess }: IssueFormProps) {
 
           {/* Key Points */}
           <div>
-            <label htmlFor="currentKeyPoint" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="currentKeyPoint"
+              className="block text-sm font-medium text-gray-700"
+            >
               Key Points (Optional)
             </label>
             <div className="mt-1 flex rounded-md shadow-sm">
@@ -325,7 +373,12 @@ export function IssueForm({ issue, onClose, onSuccess }: IssueFormProps) {
                 id="currentKeyPoint"
                 value={currentKeyPoint}
                 onChange={(e) => setCurrentKeyPoint(e.target.value)}
-                onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleAddKeyPoint();}}}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    handleAddKeyPoint();
+                  }
+                }}
                 className="focus:ring-blue-500 focus:border-blue-500 flex-1 block w-full rounded-none rounded-l-md sm:text-sm border-gray-300 px-3 py-2"
                 placeholder="Add a key point"
               />
@@ -340,7 +393,10 @@ export function IssueForm({ issue, onClose, onSuccess }: IssueFormProps) {
             {formData.key_points.length > 0 && (
               <ul className="mt-2 list-disc list-inside text-sm text-gray-500">
                 {formData.key_points.map((point, index) => (
-                  <li key={index} className="flex justify-between items-center py-1">
+                  <li
+                    key={index}
+                    className="flex justify-between items-center py-1"
+                  >
                     <span>{point}</span>
                     <button
                       type="button"
@@ -357,7 +413,10 @@ export function IssueForm({ issue, onClose, onSuccess }: IssueFormProps) {
 
           {/* Success Criteria */}
           <div>
-            <label htmlFor="currentSuccessCriterion" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="currentSuccessCriterion"
+              className="block text-sm font-medium text-gray-700"
+            >
               Success Criteria (Optional)
             </label>
             <div className="mt-1 flex rounded-md shadow-sm">
@@ -367,7 +426,12 @@ export function IssueForm({ issue, onClose, onSuccess }: IssueFormProps) {
                 id="currentSuccessCriterion"
                 value={currentSuccessCriterion}
                 onChange={(e) => setCurrentSuccessCriterion(e.target.value)}
-                onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleAddSuccessCriterion();}}}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    handleAddSuccessCriterion();
+                  }
+                }}
                 className="focus:ring-blue-500 focus:border-blue-500 flex-1 block w-full rounded-none rounded-l-md sm:text-sm border-gray-300 px-3 py-2"
                 placeholder="Add a success criterion"
               />
@@ -382,7 +446,10 @@ export function IssueForm({ issue, onClose, onSuccess }: IssueFormProps) {
             {formData.success_criteria.length > 0 && (
               <ul className="mt-2 list-disc list-inside text-sm text-gray-500">
                 {formData.success_criteria.map((criterion, index) => (
-                  <li key={index} className="flex justify-between items-center py-1">
+                  <li
+                    key={index}
+                    className="flex justify-between items-center py-1"
+                  >
                     <span>{criterion}</span>
                     <button
                       type="button"
@@ -402,8 +469,18 @@ export function IssueForm({ issue, onClose, onSuccess }: IssueFormProps) {
               <div className="flex">
                 <div className="flex-shrink-0">
                   {/* Heroicon name: mini/x-circle */}
-                  <svg className="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clipRule="evenodd" />
+                  <svg
+                    className="h-5 w-5 text-red-400"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z"
+                      clipRule="evenodd"
+                    />
                   </svg>
                 </div>
                 <div className="ml-3">
@@ -427,7 +504,11 @@ export function IssueForm({ issue, onClose, onSuccess }: IssueFormProps) {
               disabled={isSubmitting}
               className="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
             >
-              {isSubmitting ? "Saving..." : issue ? "Update Issue" : "Create Issue"}
+              {isSubmitting
+                ? "Saving..."
+                : issue
+                  ? "Update Issue"
+                  : "Create Issue"}
             </button>
           </div>
         </form>
