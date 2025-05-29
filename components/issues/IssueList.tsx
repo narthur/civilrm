@@ -15,7 +15,7 @@ function IssueCard({ issue, onEdit }: IssueCardProps) {
   };
 
   return (
-    <div className="bg-white shadow rounded-lg p-6 mb-4">
+    <div className="bg-gray-800 shadow rounded-lg p-6 mb-4">
       <div className="flex justify-between items-start">
         <div>
           <div className="flex items-center space-x-2">
@@ -37,33 +37,33 @@ function IssueCard({ issue, onEdit }: IssueCardProps) {
               {issue.priority}
             </span>
           </div>
-          <h3 className="text-lg font-medium text-gray-900 mt-2">
+          <h3 className="text-lg font-medium text-white mt-2">
             {issue.title}
           </h3>
-          <p className="text-sm text-gray-500">Created: {formatDate(issue._creationTime)}</p>
+          <p className="text-sm text-gray-400">Created: {formatDate(issue._creationTime)}</p>
           {issue.target_date && (
-            <p className="text-sm text-gray-500">Target: {formatDate(issue.target_date)}</p>
+            <p className="text-sm text-gray-400">Target: {formatDate(issue.target_date)}</p>
           )}
         </div>
         <button
           onClick={() => onEdit(issue)}
-          className="text-sm text-blue-600 hover:text-blue-800"
+          className="text-sm text-blue-400 hover:text-blue-300"
         >
           Edit
         </button>
       </div>
 
       <div className="mt-4">
-        <h4 className="text-sm font-medium text-gray-900">Description</h4>
-        <p className="mt-1 text-sm text-gray-500 whitespace-pre-wrap">
+        <h4 className="text-sm font-medium text-gray-100">Description</h4>
+        <p className="mt-1 text-sm text-gray-400 whitespace-pre-wrap">
           {issue.description}
         </p>
       </div>
 
       {issue.key_points && issue.key_points.length > 0 && (
         <div className="mt-4">
-          <h4 className="text-sm font-medium text-gray-900">Key Points</h4>
-          <ul className="mt-2 list-disc list-inside text-sm text-gray-500">
+          <h4 className="text-sm font-medium text-gray-100">Key Points</h4>
+          <ul className="mt-2 list-disc list-inside text-sm text-gray-400">
             {issue.key_points.map((point: string, index: number) => (
               <li key={index}>{point}</li>
             ))}
@@ -73,8 +73,8 @@ function IssueCard({ issue, onEdit }: IssueCardProps) {
 
       {issue.success_criteria && issue.success_criteria.length > 0 && (
         <div className="mt-4">
-          <h4 className="text-sm font-medium text-gray-900">Success Criteria</h4>
-          <ul className="mt-2 list-disc list-inside text-sm text-gray-500">
+          <h4 className="text-sm font-medium text-gray-100">Success Criteria</h4>
+          <ul className="mt-2 list-disc list-inside text-sm text-gray-400">
             {issue.success_criteria.map((criteria: string, index: number) => (
               <li key={index}>{criteria}</li>
             ))}
@@ -84,8 +84,8 @@ function IssueCard({ issue, onEdit }: IssueCardProps) {
 
       {issue.notes && (
         <div className="mt-4">
-          <h4 className="text-sm font-medium text-gray-900">Notes</h4>
-          <p className="mt-1 text-sm text-gray-500 whitespace-pre-wrap">
+          <h4 className="text-sm font-medium text-gray-100">Notes</h4>
+          <p className="mt-1 text-sm text-gray-400 whitespace-pre-wrap">
             {issue.notes}
           </p>
         </div>
@@ -138,17 +138,17 @@ export function IssueList() {
 
   return (
     <div>
-      <div className="mb-6 flex justify-between items-center">
+      <div className="mb-6 flex justify-between items-center text-gray-200">
         <div className="flex space-x-4">
           <div>
-            <label htmlFor="status-filter" className="mr-2 text-sm font-medium text-gray-700">
+            <label htmlFor="status-filter" className="mr-2 text-sm font-medium text-gray-300">
               Status:
             </label>
             <select
               id="status-filter"
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value as typeof statusFilter)}
-              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
+              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-600 bg-gray-700 text-white focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
             >
               <option value="all">All Status</option>
               <option value="active">Active</option>
@@ -159,14 +159,14 @@ export function IssueList() {
             </select>
           </div>
           <div>
-            <label htmlFor="priority-filter" className="mr-2 text-sm font-medium text-gray-700">
+            <label htmlFor="priority-filter" className="mr-2 text-sm font-medium text-gray-300">
               Priority:
             </label>
             <select
               id="priority-filter"
               value={priorityFilter}
               onChange={(e) => setPriorityFilter(e.target.value as typeof priorityFilter)}
-              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
+              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-600 bg-gray-700 text-white focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
             >
               <option value="all">All Priorities</option>
               <option value="high">High</option>
@@ -185,7 +185,7 @@ export function IssueList() {
 
       <div className="space-y-4">
         {filteredIssues?.length === 0 ? (
-          <p className="text-center text-gray-500 py-8">
+          <p className="text-center text-gray-400 py-8">
             No issues found. Add your first issue to get started!
           </p>
         ) : (
