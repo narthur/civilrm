@@ -13,9 +13,7 @@ export function Header() {
               </Link>
             </div>
           </div>
-          <div className="text-red-300">
-            Alpha: Data loss may occur
-          </div>
+          <div className="text-red-300">Alpha: Data loss may occur</div>
           <div className="flex items-center">
             <SignedIn>
               <UserButton />
@@ -27,7 +25,7 @@ export function Header() {
                 </button>
               </SignInButton>
             </SignedOut>
-          </div>>
+          </div>
         </div>
       </div>
     </header>
