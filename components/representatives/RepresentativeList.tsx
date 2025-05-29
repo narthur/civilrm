@@ -35,7 +35,7 @@ function RepresentativeCard({
         </div>
         <button
           onClick={() => onEdit(representative)}
-          className="text-sm text-blue-600 hover:text-blue-800"
+          className="text-sm text-blue-300 hover:text-blue-200"
         >
           Edit
         </button>
