@@ -37,7 +37,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
         <Layout>
           <Unauthenticated>
-            <div className="flex items-center justify-center min-h-screen">
+            <div className="flex items-center justify-center min-h-screen text-gray-200">
               <div className="text-center">
                 <h1 className="text-2xl font-bold mb-4">Welcome to CivilRM</h1>
                 <p className="mb-4">Please sign in to access your dashboard.</p>
