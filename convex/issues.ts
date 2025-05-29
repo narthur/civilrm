@@ -1,6 +1,5 @@
 import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
-import { Doc, Id } from "./_generated/dataModel";
 
 // List issues for the current user
 export const listMyIssues = query({
@@ -11,11 +10,11 @@ export const listMyIssues = query({
         v.literal("monitoring"),
         v.literal("archived"),
         v.literal("resolved"),
-        v.literal("blocked")
-      )
+        v.literal("blocked"),
+      ),
     ),
     priority: v.optional(
-      v.union(v.literal("high"), v.literal("medium"), v.literal("low"))
+      v.union(v.literal("high"), v.literal("medium"), v.literal("low")),
     ),
   },
   handler: async (ctx, args) => {
@@ -27,10 +26,10 @@ export const listMyIssues = query({
     const user = await ctx.db
       .query("users")
       .withIndex("by_token", (q) =>
-        q.eq("tokenIdentifier", identity.tokenIdentifier)
+        q.eq("tokenIdentifier", identity.tokenIdentifier),
       )
       .unique();
-    
+
     if (!user) {
       throw new Error("User not found");
     }
@@ -39,27 +38,24 @@ export const listMyIssues = query({
     let issuesQuery;
 
     if (args.status && args.priority) {
-      issuesQuery = ctx.db
-        .query("issues")
-        .withIndex("by_user_status_priority", (q) =>
-          q.eq("userId", user._id)
-           .eq("status", args.status!) // status is defined here
-           .eq("priority", args.priority!) // priority is defined here
-        );
+      issuesQuery = ctx.db.query("issues").withIndex(
+        "by_user_status_priority",
+        (q) =>
+          q
+            .eq("userId", user._id)
+            .eq("status", args.status!) // status is defined here
+            .eq("priority", args.priority!), // priority is defined here
+      );
     } else if (args.status) {
-      issuesQuery = ctx.db
-        .query("issues")
-        .withIndex("by_user_status", (q) =>
-          q.eq("userId", user._id)
-           .eq("status", args.status!) // status is defined here
-        );
+      issuesQuery = ctx.db.query("issues").withIndex(
+        "by_user_status",
+        (q) => q.eq("userId", user._id).eq("status", args.status!), // status is defined here
+      );
     } else if (args.priority) {
-      issuesQuery = ctx.db
-        .query("issues")
-        .withIndex("by_user_priority", (q) =>
-          q.eq("userId", user._id)
-           .eq("priority", args.priority!) // priority is defined here
-        );
+      issuesQuery = ctx.db.query("issues").withIndex(
+        "by_user_priority",
+        (q) => q.eq("userId", user._id).eq("priority", args.priority!), // priority is defined here
+      );
     } else {
       issuesQuery = ctx.db
         .query("issues")
@@ -88,10 +84,10 @@ export const getIssueDetails = query({
     const user = await ctx.db
       .query("users")
       .withIndex("by_token", (q) =>
-        q.eq("tokenIdentifier", identity.tokenIdentifier)
+        q.eq("tokenIdentifier", identity.tokenIdentifier),
       )
       .unique();
-    
+
     if (!user) {
       throw new Error("User not found");
     }
@@ -115,7 +111,7 @@ export const createIssue = mutation({
       v.literal("monitoring"),
       v.literal("archived"),
       v.literal("resolved"),
-      v.literal("blocked")
+      v.literal("blocked"),
     ),
     priority: v.union(v.literal("high"), v.literal("medium"), v.literal("low")),
     tags: v.array(v.string()),
@@ -134,10 +130,10 @@ export const createIssue = mutation({
     const user = await ctx.db
       .query("users")
       .withIndex("by_token", (q) =>
-        q.eq("tokenIdentifier", identity.tokenIdentifier)
+        q.eq("tokenIdentifier", identity.tokenIdentifier),
       )
       .unique();
-    
+
     if (!user) {
       throw new Error("User not found");
     }
@@ -164,11 +160,11 @@ export const updateIssue = mutation({
         v.literal("monitoring"),
         v.literal("archived"),
         v.literal("resolved"),
-        v.literal("blocked")
-      )
+        v.literal("blocked"),
+      ),
     ),
     priority: v.optional(
-      v.union(v.literal("high"), v.literal("medium"), v.literal("low"))
+      v.union(v.literal("high"), v.literal("medium"), v.literal("low")),
     ),
     tags: v.optional(v.array(v.string())),
     target_date: v.optional(v.number()),
@@ -186,10 +182,10 @@ export const updateIssue = mutation({
     const user = await ctx.db
       .query("users")
       .withIndex("by_token", (q) =>
-        q.eq("tokenIdentifier", identity.tokenIdentifier)
+        q.eq("tokenIdentifier", identity.tokenIdentifier),
       )
       .unique();
-    
+
     if (!user) {
       throw new Error("User not found");
     }
@@ -206,6 +202,7 @@ export const updateIssue = mutation({
     }
 
     // Remove the id from args since we don't want to update it
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { id, ...updates } = args;
 
     // Update the issue
@@ -226,10 +223,10 @@ export const archiveIssue = mutation({
     const user = await ctx.db
       .query("users")
       .withIndex("by_token", (q) =>
-        q.eq("tokenIdentifier", identity.tokenIdentifier)
+        q.eq("tokenIdentifier", identity.tokenIdentifier),
       )
       .unique();
-    
+
     if (!user) {
       throw new Error("User not found");
     }

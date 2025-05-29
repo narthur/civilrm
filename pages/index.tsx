@@ -5,7 +5,6 @@ import { Doc } from "../convex/_generated/dataModel";
 import {
   SignedIn,
   SignedOut,
-  UserButton,
   SignInButton,
   useAuth,
   useUser,

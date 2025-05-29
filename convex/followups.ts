@@ -1,6 +1,5 @@
 import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
-import { Doc, Id } from "./_generated/dataModel";
 
 // List follow-ups for the current user
 export const listMyFollowups = query({
@@ -9,8 +8,8 @@ export const listMyFollowups = query({
       v.union(
         v.literal("pending"),
         v.literal("completed"),
-        v.literal("cancelled")
-      )
+        v.literal("cancelled"),
+      ),
     ),
     interactionId: v.optional(v.id("interactions")),
   },
@@ -23,10 +22,10 @@ export const listMyFollowups = query({
     const user = await ctx.db
       .query("users")
       .withIndex("by_token", (q) =>
-        q.eq("tokenIdentifier", identity.tokenIdentifier)
+        q.eq("tokenIdentifier", identity.tokenIdentifier),
       )
       .unique();
-    
+
     if (!user) {
       throw new Error("User not found");
     }
@@ -38,13 +37,13 @@ export const listMyFollowups = query({
       followupsQuery = ctx.db
         .query("followups")
         .withIndex("by_user_status", (q) =>
-          q.eq("userId", user._id).eq("status", args.status!)
+          q.eq("userId", user._id).eq("status", args.status!),
         );
     } else if (args.interactionId) {
       followupsQuery = ctx.db
         .query("followups")
         .withIndex("by_interaction", (q) =>
-          q.eq("interactionId", args.interactionId!)
+          q.eq("interactionId", args.interactionId!),
         );
     } else {
       // Default to ordering by due date
@@ -56,12 +55,15 @@ export const listMyFollowups = query({
     // Apply additional filters if needed
     if (args.status && !followupsQuery.toString().includes("by_user_status")) {
       followupsQuery = followupsQuery.filter((q) =>
-        q.eq(q.field("status"), args.status!)
+        q.eq(q.field("status"), args.status!),
       );
     }
-    if (args.interactionId && !followupsQuery.toString().includes("by_interaction")) {
+    if (
+      args.interactionId &&
+      !followupsQuery.toString().includes("by_interaction")
+    ) {
       followupsQuery = followupsQuery.filter((q) =>
-        q.eq(q.field("interactionId"), args.interactionId!)
+        q.eq(q.field("interactionId"), args.interactionId!),
       );
     }
 
@@ -90,10 +92,10 @@ export const getFollowupDetails = query({
     const user = await ctx.db
       .query("users")
       .withIndex("by_token", (q) =>
-        q.eq("tokenIdentifier", identity.tokenIdentifier)
+        q.eq("tokenIdentifier", identity.tokenIdentifier),
       )
       .unique();
-    
+
     if (!user) {
       throw new Error("User not found");
     }
@@ -112,15 +114,11 @@ export const createFollowup = mutation({
   args: {
     interactionId: v.id("interactions"),
     due_date: v.number(),
-    type: v.union(
-      v.literal("call"),
-      v.literal("email"),
-      v.literal("meeting")
-    ),
+    type: v.union(v.literal("call"), v.literal("email"), v.literal("meeting")),
     status: v.union(
       v.literal("pending"),
       v.literal("completed"),
-      v.literal("cancelled")
+      v.literal("cancelled"),
     ),
     notes: v.optional(v.string()),
   },
@@ -134,10 +132,10 @@ export const createFollowup = mutation({
     const user = await ctx.db
       .query("users")
       .withIndex("by_token", (q) =>
-        q.eq("tokenIdentifier", identity.tokenIdentifier)
+        q.eq("tokenIdentifier", identity.tokenIdentifier),
       )
       .unique();
-    
+
     if (!user) {
       throw new Error("User not found");
     }
@@ -165,14 +163,14 @@ export const updateFollowup = mutation({
     id: v.id("followups"),
     due_date: v.optional(v.number()),
     type: v.optional(
-      v.union(v.literal("call"), v.literal("email"), v.literal("meeting"))
+      v.union(v.literal("call"), v.literal("email"), v.literal("meeting")),
     ),
     status: v.optional(
       v.union(
         v.literal("pending"),
         v.literal("completed"),
-        v.literal("cancelled")
-      )
+        v.literal("cancelled"),
+      ),
     ),
     notes: v.optional(v.string()),
     reminder_sent: v.optional(v.boolean()),
@@ -187,10 +185,10 @@ export const updateFollowup = mutation({
     const user = await ctx.db
       .query("users")
       .withIndex("by_token", (q) =>
-        q.eq("tokenIdentifier", identity.tokenIdentifier)
+        q.eq("tokenIdentifier", identity.tokenIdentifier),
       )
       .unique();
-    
+
     if (!user) {
       throw new Error("User not found");
     }
@@ -207,6 +205,7 @@ export const updateFollowup = mutation({
     }
 
     // Remove the id from args since we don't want to update it
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { id, ...updates } = args;
 
     // Update the follow-up
@@ -227,10 +226,10 @@ export const completeFollowup = mutation({
     const user = await ctx.db
       .query("users")
       .withIndex("by_token", (q) =>
-        q.eq("tokenIdentifier", identity.tokenIdentifier)
+        q.eq("tokenIdentifier", identity.tokenIdentifier),
       )
       .unique();
-    
+
     if (!user) {
       throw new Error("User not found");
     }

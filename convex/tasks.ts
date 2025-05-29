@@ -1,15 +1,14 @@
 import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
-import { Doc, Id } from "./_generated/dataModel";
 
 // List tasks for the current user
 export const listMyTasks = query({
   args: {
     status: v.optional(
-      v.union(v.literal("todo"), v.literal("in_progress"), v.literal("done"))
+      v.union(v.literal("todo"), v.literal("in_progress"), v.literal("done")),
     ),
     priority: v.optional(
-      v.union(v.literal("high"), v.literal("medium"), v.literal("low"))
+      v.union(v.literal("high"), v.literal("medium"), v.literal("low")),
     ),
     issueId: v.optional(v.id("issues")),
   },
@@ -22,10 +21,10 @@ export const listMyTasks = query({
     const user = await ctx.db
       .query("users")
       .withIndex("by_token", (q) =>
-        q.eq("tokenIdentifier", identity.tokenIdentifier)
+        q.eq("tokenIdentifier", identity.tokenIdentifier),
       )
       .unique();
-    
+
     if (!user) {
       throw new Error("User not found");
     }
@@ -37,13 +36,13 @@ export const listMyTasks = query({
       tasksQuery = ctx.db
         .query("tasks")
         .withIndex("by_user_status", (q) =>
-          q.eq("userId", user._id).eq("status", args.status!)
+          q.eq("userId", user._id).eq("status", args.status!),
         );
     } else if (args.priority) {
       tasksQuery = ctx.db
         .query("tasks")
         .withIndex("by_user_priority", (q) =>
-          q.eq("userId", user._id).eq("priority", args.priority!)
+          q.eq("userId", user._id).eq("priority", args.priority!),
         );
     } else if (args.issueId) {
       tasksQuery = ctx.db
@@ -59,17 +58,17 @@ export const listMyTasks = query({
     // Apply additional filters if needed
     if (args.status && !tasksQuery.toString().includes("by_user_status")) {
       tasksQuery = tasksQuery.filter((q) =>
-        q.eq(q.field("status"), args.status!)
+        q.eq(q.field("status"), args.status!),
       );
     }
     if (args.priority && !tasksQuery.toString().includes("by_user_priority")) {
       tasksQuery = tasksQuery.filter((q) =>
-        q.eq(q.field("priority"), args.priority!)
+        q.eq(q.field("priority"), args.priority!),
       );
     }
     if (args.issueId && !tasksQuery.toString().includes("by_issue")) {
       tasksQuery = tasksQuery.filter((q) =>
-        q.eq(q.field("issueId"), args.issueId!)
+        q.eq(q.field("issueId"), args.issueId!),
       );
     }
 
@@ -98,10 +97,10 @@ export const getTaskDetails = query({
     const user = await ctx.db
       .query("users")
       .withIndex("by_token", (q) =>
-        q.eq("tokenIdentifier", identity.tokenIdentifier)
+        q.eq("tokenIdentifier", identity.tokenIdentifier),
       )
       .unique();
-    
+
     if (!user) {
       throw new Error("User not found");
     }
@@ -125,7 +124,7 @@ export const createTask = mutation({
     status: v.union(
       v.literal("todo"),
       v.literal("in_progress"),
-      v.literal("done")
+      v.literal("done"),
     ),
     priority: v.union(v.literal("high"), v.literal("medium"), v.literal("low")),
   },
@@ -139,10 +138,10 @@ export const createTask = mutation({
     const user = await ctx.db
       .query("users")
       .withIndex("by_token", (q) =>
-        q.eq("tokenIdentifier", identity.tokenIdentifier)
+        q.eq("tokenIdentifier", identity.tokenIdentifier),
       )
       .unique();
-    
+
     if (!user) {
       throw new Error("User not found");
     }
@@ -175,10 +174,10 @@ export const updateTask = mutation({
     due_date: v.optional(v.number()),
     issueId: v.optional(v.id("issues")),
     status: v.optional(
-      v.union(v.literal("todo"), v.literal("in_progress"), v.literal("done"))
+      v.union(v.literal("todo"), v.literal("in_progress"), v.literal("done")),
     ),
     priority: v.optional(
-      v.union(v.literal("high"), v.literal("medium"), v.literal("low"))
+      v.union(v.literal("high"), v.literal("medium"), v.literal("low")),
     ),
     reminder_sent: v.optional(v.boolean()),
   },
@@ -192,10 +191,10 @@ export const updateTask = mutation({
     const user = await ctx.db
       .query("users")
       .withIndex("by_token", (q) =>
-        q.eq("tokenIdentifier", identity.tokenIdentifier)
+        q.eq("tokenIdentifier", identity.tokenIdentifier),
       )
       .unique();
-    
+
     if (!user) {
       throw new Error("User not found");
     }
@@ -220,6 +219,7 @@ export const updateTask = mutation({
     }
 
     // Remove the id from args since we don't want to update it
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { id, ...updates } = args;
 
     // Update the task
@@ -240,10 +240,10 @@ export const completeTask = mutation({
     const user = await ctx.db
       .query("users")
       .withIndex("by_token", (q) =>
-        q.eq("tokenIdentifier", identity.tokenIdentifier)
+        q.eq("tokenIdentifier", identity.tokenIdentifier),
       )
       .unique();
-    
+
     if (!user) {
       throw new Error("User not found");
     }

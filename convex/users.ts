@@ -1,25 +1,6 @@
 import { query, mutation } from "./_generated/server";
 import { v } from "convex/values";
-import { Doc, Id } from "./_generated/dataModel";
-
-// Helper to get or create a user.
-// In a real app, this would be tied to authentication.
-// For now, we'll just use the first user or create one.
-async function getOrCreateUser(ctx: any): Promise<Doc<"users">> {
-  const users = await ctx.db.query("users").collect();
-  if (users.length > 0) {
-    return users[0];
-  }
-  // Create a default user if none exists
-  const userId = await ctx.db.insert("users", {
-    name: "New User",
-    email: "newuser@example.com",
-    // preferences will be undefined initially
-  });
-  const newUser = await ctx.db.get(userId);
-  if (!newUser) throw new Error("Failed to create or get user");
-  return newUser;
-}
+import { Doc } from "./_generated/dataModel";
 
 export const storeUser = mutation({
   args: {}, // No arguments, gets identity from ctx.auth
@@ -33,7 +14,7 @@ export const storeUser = mutation({
     const user = await ctx.db
       .query("users")
       .withIndex("by_token", (q) =>
-        q.eq("tokenIdentifier", identity.tokenIdentifier)
+        q.eq("tokenIdentifier", identity.tokenIdentifier),
       )
       .unique();
 
@@ -70,7 +51,7 @@ export const getMyProfile = query({
     const user = await ctx.db
       .query("users")
       .withIndex("by_token", (q) =>
-        q.eq("tokenIdentifier", identity.tokenIdentifier)
+        q.eq("tokenIdentifier", identity.tokenIdentifier),
       )
       .unique();
 
@@ -93,7 +74,7 @@ export const updateProfile = mutation({
     const user = await ctx.db
       .query("users")
       .withIndex("by_token", (q) =>
-        q.eq("tokenIdentifier", identity.tokenIdentifier)
+        q.eq("tokenIdentifier", identity.tokenIdentifier),
       )
       .unique();
 
@@ -108,7 +89,7 @@ export const updateProfile = mutation({
     // Add preferences update logic here later
 
     if (Object.keys(updateData).length > 0) {
-        await ctx.db.patch(user._id, updateData);
+      await ctx.db.patch(user._id, updateData);
     }
   },
 });

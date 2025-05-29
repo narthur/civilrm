@@ -1,6 +1,5 @@
 import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
-import { Doc, Id } from "./_generated/dataModel";
 
 // List interactions for the current user
 export const listMyInteractions = query({
@@ -11,7 +10,7 @@ export const listMyInteractions = query({
       v.object({
         start: v.number(),
         end: v.number(),
-      })
+      }),
     ),
   },
   handler: async (ctx, args) => {
@@ -23,10 +22,10 @@ export const listMyInteractions = query({
     const user = await ctx.db
       .query("users")
       .withIndex("by_token", (q) =>
-        q.eq("tokenIdentifier", identity.tokenIdentifier)
+        q.eq("tokenIdentifier", identity.tokenIdentifier),
       )
       .unique();
-    
+
     if (!user) {
       throw new Error("User not found");
     }
@@ -35,7 +34,7 @@ export const listMyInteractions = query({
     let interactionsQuery = ctx.db
       .query("interactions")
       .withIndex("by_user_date", (q) => {
-        let dateBuilder = q.eq("userId", user._id);
+        const dateBuilder = q.eq("userId", user._id);
         if (args.dateRange) {
           // Ensure dateRange is defined before accessing its properties
           return dateBuilder
@@ -49,14 +48,14 @@ export const listMyInteractions = query({
     // This will be a "post-index" filter if representativeId is not part of the by_user_date index.
     if (args.representativeId) {
       interactionsQuery = interactionsQuery.filter((q) =>
-        q.eq(q.field("representativeId"), args.representativeId)
+        q.eq(q.field("representativeId"), args.representativeId),
       );
     }
 
     // If issueId filter is needed, apply it.
     if (args.issueId) {
       interactionsQuery = interactionsQuery.filter((q) =>
-        q.eq(q.field("issueId"), args.issueId)
+        q.eq(q.field("issueId"), args.issueId),
       );
     }
 
@@ -86,10 +85,10 @@ export const getInteractionDetails = query({
     const user = await ctx.db
       .query("users")
       .withIndex("by_token", (q) =>
-        q.eq("tokenIdentifier", identity.tokenIdentifier)
+        q.eq("tokenIdentifier", identity.tokenIdentifier),
       )
       .unique();
-    
+
     if (!user) {
       throw new Error("User not found");
     }
@@ -112,7 +111,7 @@ export const logInteraction = mutation({
       v.literal("call"),
       v.literal("email"),
       v.literal("meeting"),
-      v.literal("letter")
+      v.literal("letter"),
     ),
     date: v.number(),
     notes: v.string(),
@@ -120,7 +119,7 @@ export const logInteraction = mutation({
       v.literal("positive"),
       v.literal("neutral"),
       v.literal("negative"),
-      v.literal("no_response")
+      v.literal("no_response"),
     ),
     follow_up_needed: v.boolean(),
     message_feedback: v.optional(
@@ -128,7 +127,7 @@ export const logInteraction = mutation({
         original_draft: v.optional(v.string()),
         final_version: v.optional(v.string()),
         what_worked: v.optional(v.array(v.string())),
-      })
+      }),
     ),
   },
   handler: async (ctx, args) => {
@@ -141,10 +140,10 @@ export const logInteraction = mutation({
     const user = await ctx.db
       .query("users")
       .withIndex("by_token", (q) =>
-        q.eq("tokenIdentifier", identity.tokenIdentifier)
+        q.eq("tokenIdentifier", identity.tokenIdentifier),
       )
       .unique();
-    
+
     if (!user) {
       throw new Error("User not found");
     }
@@ -183,8 +182,8 @@ export const updateInteraction = mutation({
         v.literal("call"),
         v.literal("email"),
         v.literal("meeting"),
-        v.literal("letter")
-      )
+        v.literal("letter"),
+      ),
     ),
     date: v.optional(v.number()),
     notes: v.optional(v.string()),
@@ -193,8 +192,8 @@ export const updateInteraction = mutation({
         v.literal("positive"),
         v.literal("neutral"),
         v.literal("negative"),
-        v.literal("no_response")
-      )
+        v.literal("no_response"),
+      ),
     ),
     follow_up_needed: v.optional(v.boolean()),
     message_feedback: v.optional(
@@ -202,7 +201,7 @@ export const updateInteraction = mutation({
         original_draft: v.optional(v.string()),
         final_version: v.optional(v.string()),
         what_worked: v.optional(v.array(v.string())),
-      })
+      }),
     ),
   },
   handler: async (ctx, args) => {
@@ -215,10 +214,10 @@ export const updateInteraction = mutation({
     const user = await ctx.db
       .query("users")
       .withIndex("by_token", (q) =>
-        q.eq("tokenIdentifier", identity.tokenIdentifier)
+        q.eq("tokenIdentifier", identity.tokenIdentifier),
       )
       .unique();
-    
+
     if (!user) {
       throw new Error("User not found");
     }
@@ -243,6 +242,7 @@ export const updateInteraction = mutation({
     }
 
     // Remove the id from args since we don't want to update it
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { id, ...updates } = args;
 
     // Update the interaction

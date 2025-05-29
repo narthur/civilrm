@@ -1,18 +1,12 @@
 import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
-import { Doc, Id } from "./_generated/dataModel";
-
-// Type for the data needed to create/update a representative
-type RepresentativeInput = Omit<Doc<"representatives">, "_id" | "_creationTime" | "userId">;
 
 // List representatives for the current user
 export const listMyRepresentatives = query({
   args: {
-    level: v.optional(v.union(
-      v.literal("federal"),
-      v.literal("state"),
-      v.literal("local")
-    )),
+    level: v.optional(
+      v.union(v.literal("federal"), v.literal("state"), v.literal("local")),
+    ),
     district: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
@@ -25,10 +19,10 @@ export const listMyRepresentatives = query({
     const user = await ctx.db
       .query("users")
       .withIndex("by_token", (q) =>
-        q.eq("tokenIdentifier", identity.tokenIdentifier)
+        q.eq("tokenIdentifier", identity.tokenIdentifier),
       )
       .unique();
-    
+
     if (!user) {
       throw new Error("User not found");
     }
@@ -40,13 +34,13 @@ export const listMyRepresentatives = query({
 
     // Apply filters if provided
     if (args.level) {
-      representativesQuery = representativesQuery.filter((q) => 
-        q.eq(q.field("level"), args.level!)
+      representativesQuery = representativesQuery.filter((q) =>
+        q.eq(q.field("level"), args.level!),
       );
     }
     if (args.district) {
-      representativesQuery = representativesQuery.filter((q) => 
-        q.eq(q.field("district"), args.district!)
+      representativesQuery = representativesQuery.filter((q) =>
+        q.eq(q.field("district"), args.district!),
       );
     }
 
@@ -72,10 +66,10 @@ export const getRepresentativeDetails = query({
     const user = await ctx.db
       .query("users")
       .withIndex("by_token", (q) =>
-        q.eq("tokenIdentifier", identity.tokenIdentifier)
+        q.eq("tokenIdentifier", identity.tokenIdentifier),
       )
       .unique();
-    
+
     if (!user) {
       throw new Error("User not found");
     }
@@ -98,7 +92,7 @@ export const addRepresentative = mutation({
     level: v.union(
       v.literal("federal"),
       v.literal("state"),
-      v.literal("local")
+      v.literal("local"),
     ),
     district: v.optional(v.string()),
     contactInfo: v.object({
@@ -110,11 +104,11 @@ export const addRepresentative = mutation({
     communication_preferences: v.optional(
       v.object({
         preferred_style: v.optional(
-          v.union(v.literal("formal"), v.literal("casual"))
+          v.union(v.literal("formal"), v.literal("casual")),
         ),
         key_interests: v.optional(v.array(v.string())),
         best_practices: v.optional(v.array(v.string())),
-      })
+      }),
     ),
   },
   handler: async (ctx, args) => {
@@ -127,10 +121,10 @@ export const addRepresentative = mutation({
     const user = await ctx.db
       .query("users")
       .withIndex("by_token", (q) =>
-        q.eq("tokenIdentifier", identity.tokenIdentifier)
+        q.eq("tokenIdentifier", identity.tokenIdentifier),
       )
       .unique();
-    
+
     if (!user) {
       throw new Error("User not found");
     }
@@ -153,7 +147,7 @@ export const updateRepresentative = mutation({
     title: v.optional(v.string()),
     office: v.optional(v.string()),
     level: v.optional(
-      v.union(v.literal("federal"), v.literal("state"), v.literal("local"))
+      v.union(v.literal("federal"), v.literal("state"), v.literal("local")),
     ),
     district: v.optional(v.string()),
     contactInfo: v.optional(
@@ -161,17 +155,17 @@ export const updateRepresentative = mutation({
         email: v.optional(v.string()),
         phone: v.optional(v.string()),
         office_address: v.optional(v.string()),
-      })
+      }),
     ),
     notes: v.optional(v.string()),
     communication_preferences: v.optional(
       v.object({
         preferred_style: v.optional(
-          v.union(v.literal("formal"), v.literal("casual"))
+          v.union(v.literal("formal"), v.literal("casual")),
         ),
         key_interests: v.optional(v.array(v.string())),
         best_practices: v.optional(v.array(v.string())),
-      })
+      }),
     ),
   },
   handler: async (ctx, args) => {
@@ -184,10 +178,10 @@ export const updateRepresentative = mutation({
     const user = await ctx.db
       .query("users")
       .withIndex("by_token", (q) =>
-        q.eq("tokenIdentifier", identity.tokenIdentifier)
+        q.eq("tokenIdentifier", identity.tokenIdentifier),
       )
       .unique();
-    
+
     if (!user) {
       throw new Error("User not found");
     }
@@ -204,6 +198,7 @@ export const updateRepresentative = mutation({
     }
 
     // Remove the id from args since we don't want to update it
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { id, ...updates } = args;
 
     // Update the representative

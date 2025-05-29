@@ -2,23 +2,10 @@ import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { Layout } from "../components/layout/Layout";
 
-import {
-  ClerkProvider,
-  useAuth,
-  SignInButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from "@clerk/clerk-react";
+import { ClerkProvider, useAuth } from "@clerk/clerk-react";
 import { ConvexProviderWithClerk } from "convex/react-clerk";
 import { ConvexReactClient } from "convex/react";
-import { api } from "../convex/_generated/api";
-import {
-  Authenticated,
-  Unauthenticated,
-  AuthLoading,
-  useQuery,
-} from "convex/react";
+import { Authenticated, Unauthenticated, AuthLoading } from "convex/react";
 import { dark } from "@clerk/themes";
 
 if (!process.env.NEXT_PUBLIC_CONVEX_URL) {
@@ -48,7 +35,7 @@ export default function App({ Component, pageProps }: AppProps) {
             <Component {...pageProps} />
           </Authenticated>
           <AuthLoading>
-            <div className="flex items-center justify-center min-h-screen">
+            <div className="text-gray-200 flex items-center justify-center min-h-screen">
               <p>Loading...</p>
             </div>
           </AuthLoading>
